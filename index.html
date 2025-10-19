@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rút mệnh giá may mắn</title>
+  <style>
+    body {
+      background-color: #0d1117;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      background-color: #ff6f61;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 10px;
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #ff857a;
+    }
+
+    .btn:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+
+    .amount {
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+      color: #ffd166;
+      display: none;
+    }
+
+    .info {
+      margin-top: 10px;
+      color: #9da5b4;
+      font-size: 15px;
+      display: none;
+    }
+
+    .footer {
+      margin-top: 40px;
+      color: #9da5b4;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Rút mệnh giá may mắn 🎁</h1>
+
+  <button id="spinBtn" class="btn" onclick="quay()">🌸 Quay ngay</button>
+
+  <div id="amount" class="amount"></div>
+  <div id="info" class="info"></div>
+  <div id="footer" class="footer">💐 20/10 vui vẻ 💐</div>
+
+  <script>
+    const menhGia = [15000, 17000, 19000, 25000];
+    const btn = document.getElementById("spinBtn");
+    const amountDiv = document.getElementById("amount");
+    const infoDiv = document.getElementById("info");
+    const footer = document.getElementById("footer");
+
+    // Kiểm tra xem người dùng đã quay chưa
+    if (localStorage.getItem("daQuayMayMan") === "true") {
+      btn.disabled = true;
+      const saved = localStorage.getItem("ketQuaMayMan");
+      amountDiv.textContent = saved + "đ";
+      amountDiv.style.display = "block";
+      infoDiv.textContent = "Các mệnh giá khác có thể ra: 15k, 17k, 19k, 25k";
+      infoDiv.style.display = "block";
+      footer.style.display = "block";
+    }
+
+    function quay() {
+      const result = menhGia[Math.floor(Math.random() * menhGia.length)];
+      btn.disabled = true;
+      amountDiv.style.display = "none";
+      infoDiv.style.display = "none";
+      footer.style.display = "none";
+
+      amountDiv.textContent = "Đang quay...";
+      amountDiv.style.display = "block";
+
+      setTimeout(() => {
+        amountDiv.textContent = result.toLocaleString('vi-VN') + "đ";
+        infoDiv.textContent = "Các mệnh giá khác có thể ra: 15k, 17k, 19k, 25k";
+        infoDiv.style.display = "block";
+        footer.style.display = "block";
+
+        // Lưu vào localStorage để không quay lại được nữa
+        localStorage.setItem("daQuayMayMan", "true");
+        localStorage.setItem("ketQuaMayMan", result.toLocaleString('vi-VN'));
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
